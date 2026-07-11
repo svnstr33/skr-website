@@ -2,7 +2,7 @@
   --bg: #f7f9fc;
   --surface: #ffffff;
   --surface-strong: #081b33;
-  --text: #694545;
+  --text: #102c50;
   --muted: #526176;
   --accent: #fd6b35;
   --accent-dark: #c94e20;
@@ -248,7 +248,7 @@
   padding: 7px 10px;
   border-radius: 999px;
   background: rgba(253, 107, 53, 0.22);
-  color: var(--accent-dark);
+  color: #102c50;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.2em;
