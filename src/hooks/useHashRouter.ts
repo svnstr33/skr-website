@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 
 export function useHashRouter() {
   const [currentPage, setCurrentPage] = useState(() => window.location.hash.slice(1) || 'home')
@@ -14,6 +14,12 @@ export function useHashRouter() {
     window.addEventListener('hashchange', syncHash)
     return () => window.removeEventListener('hashchange', syncHash)
   }, [])
+
+  // Hash routes keep the previous scroll position by default. Every page change
+  // should instead begin directly below the header, like a normal new page.
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [currentPage])
 
   const openPage = useCallback((page: string) => {
     window.location.hash = page
