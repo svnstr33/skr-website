@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import heroImg from '../../assets/hero.png'
 import { navItems } from '../../data/navItems'
 import { FiChevronDown, FiMail, FiMoreVertical, FiX } from 'react-icons/fi'
+import { FaWhatsapp } from 'react-icons/fa'
 
 type HeaderProps = {
   currentPage: string
@@ -62,7 +63,10 @@ export function Header({
           {menuOpen ? <FiX className="button-icon" /> : <FiMoreVertical className="button-icon" />}
         </button>
 
-        <nav id="primary-nav" className={`nav ${menuOpen ? 'nav-open' : ''}`} aria-label="Primary navigation">
+        <nav id="primary-nav" className={`nav ${menuOpen ? 'nav-open' : ''}`} aria-label="Primary navigation" onClick={(event) => {
+          const link = (event.target as Element).closest<HTMLAnchorElement>('a[href^="#"]')
+          if (link) event.preventDefault()
+        }}>
           {navItems.map((item) => (
             <div key={item.label} className="nav-item">
               {item.children ? (
@@ -98,8 +102,11 @@ export function Header({
               )}
             </div>
           ))}
-          <a href="#contact" className="menu-quote-link" onClick={() => onOpenPage('contact')}>
+          <a href="#contact-form" className="menu-quote-link" onClick={() => onOpenPage('contact-form')}>
             Request a Quote <FiMail />
+          </a>
+          <a href="#contact-form" className="nav-whatsapp-link" onClick={() => onOpenPage('contact-form')} aria-label="Open WhatsApp enquiry form" title="WhatsApp enquiry">
+            <FaWhatsapp />
           </a>
         </nav>
       </div>

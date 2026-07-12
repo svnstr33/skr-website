@@ -45,7 +45,7 @@ export const pageContent: PageContentMap = {
     overviewTitle: 'Focused capability, connected by SKR', overview: 'Each division operates with a distinct manufacturing focus while being supported by the same commitment to practical planning, responsive communication and quality-aware execution.',
     cards: [
       { meta: 'Division 01', title: 'Umbrella Components', body: 'Ribs, frames, shafts, stretchers and assembly components for umbrella systems and custom requirements.' },
-      { meta: 'Division 02', title: 'Vishwakarma Engineering', body: 'Precision components, metal fabrication and drawing-led industrial manufacturing support.' },
+      { meta: 'Division 02', title: 'Engineering', body: 'Precision components, metal fabrication and drawing-led industrial manufacturing support.' },
     ],
     processTitle: 'The right path for your requirement', process: [
       { meta: '01', title: 'Choose a division', body: 'Start with the specialist focus that best fits your product or drawing.' },
@@ -125,7 +125,7 @@ export const pageContent: PageContentMap = {
     ], cta: 'Discuss your umbrella component requirement with the SKR team.'
   },
   'vishwakarma-engineering': {
-    eyebrow: 'Division 02', title: 'Vishwakarma Engineering',
+    eyebrow: 'Division 02', title: 'Engineering',
     description: 'Precision-machined metal components for industrial applications, manufactured using CNC, VMC, EDM and specialised purpose machines.',
     imageLabel: 'Engineering workshop photograph', imageNote: 'Add an approved machinery, fabrication or metal-component photograph here.',
     stats: [['01', 'Engineering division'], ['Drawing', 'Requirement-led review'], ['Metal', 'Manufacturing support']],

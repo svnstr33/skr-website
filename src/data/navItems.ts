@@ -8,7 +8,7 @@ export const navItems: NavItem[] = [
     href: '#division',
     children: [
       { label: 'Umbrella Manufacturing', href: '#umbrella-manufacturing' },
-      { label: 'Vishwakarma Engineering', href: '#vishwakarma-engineering' },
+      { label: 'Engineering', href: '#vishwakarma-engineering' },
     ],
   },
   { label: 'Products', href: '#products' },

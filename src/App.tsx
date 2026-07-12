@@ -1,13 +1,14 @@
 import { useRef } from 'react'
 import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
+import { QuoteModal } from './components/layout/QuoteModal'
 import { FactoryOverview } from './components/home/FactoryOverview'
 import { Hero } from './components/home/Hero'
 import { QualityStrip } from './components/home/QualityStrip'
 import { PremiumHome } from './components/home/PremiumHome'
 import { CompanyProfile } from './components/profile/CompanyProfile'
-import { LeadershipSection } from './components/profile/LeadershipSection'
 import { ContactPage } from './components/pages/ContactPage'
+import { GalleryPage } from './components/pages/GalleryPage'
 import { ProductDetailPage } from './components/pages/ProductDetailPage'
 import { NotFoundPage } from './components/pages/NotFoundPage'
 import { OperationsPage } from './components/pages/OperationsPage'
@@ -23,9 +24,11 @@ function App() {
   const appScope = useRef<HTMLDivElement>(null)
   const {
     currentPage,
+    quoteModalOpen,
     menuOpen,
     openDropdown,
     openPage,
+    closeQuoteModal,
     toggleMenu,
     toggleDropdown,
     closeDropdown,
@@ -33,9 +36,11 @@ function App() {
 
   const isProfilePage = currentPage === 'profile'
   const isHomePage = currentPage === 'home'
+  const isContactPage = currentPage === 'contact'
+  const isGalleryPage = currentPage === 'gallery'
   const standardContent = pageContent[currentPage]
   const productId = currentPage.startsWith('product-') ? currentPage.slice('product-'.length) : null
-  const knownPage = isHomePage || isProfilePage || currentPage === 'contact' || Boolean(standardContent) || Boolean(productId)
+  const knownPage = isHomePage || isProfilePage || isContactPage || Boolean(standardContent) || Boolean(productId)
   const operationsPage = operations[currentPage] ? currentPage : null
   const pageExists = knownPage || Boolean(operationsPage)
 
@@ -54,8 +59,10 @@ function App() {
         onOpenPage={openPage}
       />
 
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <Hero visible={isHomePage} onOpenPage={openPage} />
 
+      <div id="main-content" tabIndex={-1}>
       {isHomePage && (
         <>
           <FactoryOverview onOpenPage={openPage} />
@@ -65,15 +72,17 @@ function App() {
       )}
 
       <CompanyProfile visible={isProfilePage} />
-      <LeadershipSection visible={isProfilePage} />
 
-      {standardContent && !operationsPage && <StandardPage content={standardContent} />}
+      {standardContent && !operationsPage && !isGalleryPage && <StandardPage content={standardContent} />}
+      {isGalleryPage && <GalleryPage />}
       {productId && <ProductDetailPage productId={productId} />}
-      {currentPage === 'contact' && <ContactPage />}
+      {isContactPage && <ContactPage />}
       {operationsPage && <OperationsPage page={operationsPage} />}
       {!pageExists && <NotFoundPage />}
+      </div>
 
       <Footer onOpenPage={openPage} />
+      {quoteModalOpen && <QuoteModal onClose={closeQuoteModal} />}
     </div>
   )
 }

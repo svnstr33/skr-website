@@ -19,7 +19,7 @@ export function Footer({ onOpenPage }: FooterProps) {
           </div>
           <div className="footer-section">
             <p className="footer-label"><FiMail className="footer-icon" /> Email</p>
-            <a href="mailto:nrsuthar@suthargroup.com" className="footer-link">nrsuthar@suthargroup.com</a>
+            <a href="mailto:skrfalna@suthargroup.com" className="footer-link">skrfalna@suthargroup.com</a>
           </div>
         </div>
 
