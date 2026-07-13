@@ -1,11 +1,14 @@
+import { useSiteSettings } from '../../lib/siteSettings'
+
 type HeroProps = { visible: boolean; onOpenPage: (page: string) => void }
 
 export function Hero({ visible, onOpenPage }: HeroProps) {
+  const settings = useSiteSettings()
   return <main id="home" className={`hero-panel ${!visible ? 'page-hidden' : ''}`}>
     <section className="hero-copy hero-premium-copy">
-      <p className="eyebrow">SKR Metal Industries Pvt. Ltd.</p>
-      <h1>Precision metal products &amp; engineering solutions.</h1>
-      <p className="hero-text">Manufacturing umbrella ribs and frames along with precision-machined metal components for industrial applications—driven by accuracy, consistency and reliable performance.</p>
+      <p className="eyebrow">{settings.hero_eyebrow}</p>
+      <h1>{settings.hero_title}</h1>
+      <p className="hero-text">{settings.hero_description}</p>
       <div className="hero-actions"><a href="#contact-form" className="hero-btn hero-btn-primary" onClick={() => onOpenPage('contact-form')}>Get a Quote</a><a href="#products" className="hero-btn hero-btn-secondary" onClick={() => onOpenPage('products')}>Explore Products</a></div>
       <div className="hero-footnote"><span>01</span> Accuracy-led manufacturing for reliable industrial output.</div>
     </section>

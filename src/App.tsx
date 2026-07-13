@@ -1,7 +1,10 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
 import { QuoteModal } from './components/layout/QuoteModal'
+import { CommandPalette } from './components/layout/CommandPalette'
+import { LoginPage } from './components/admin/LoginPage'
+import { AdminDashboard } from './components/admin/AdminDashboard'
 import { FactoryOverview } from './components/home/FactoryOverview'
 import { Hero } from './components/home/Hero'
 import { QualityStrip } from './components/home/QualityStrip'
@@ -22,6 +25,18 @@ import './styles/app.css'
 
 function App() {
   const appScope = useRef<HTMLDivElement>(null)
+  const [pathname, setPathname] = useState(() => window.location.pathname)
+  useEffect(() => {
+    const syncPath = () => setPathname(window.location.pathname)
+    window.addEventListener('popstate', syncPath)
+    return () => window.removeEventListener('popstate', syncPath)
+  }, [])
+  const navigateAdmin = (path: '/login' | '/dashboard') => {
+    window.history.pushState(null, '', path)
+    setPathname(path)
+  }
+  if (pathname === '/login') return <LoginPage onSuccess={() => navigateAdmin('/dashboard')} />
+  if (pathname === '/dashboard') return <AdminDashboard onExit={() => navigateAdmin('/login')} />
   const {
     currentPage,
     quoteModalOpen,
@@ -82,6 +97,7 @@ function App() {
       </div>
 
       <Footer onOpenPage={openPage} />
+      <CommandPalette onOpenPage={openPage} />
       {quoteModalOpen && <QuoteModal onClose={closeQuoteModal} />}
     </div>
   )
