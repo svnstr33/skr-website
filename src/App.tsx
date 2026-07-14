@@ -15,6 +15,7 @@ import { GalleryPage } from './components/pages/GalleryPage'
 import { ProductDetailPage } from './components/pages/ProductDetailPage'
 import { NotFoundPage } from './components/pages/NotFoundPage'
 import { OperationsPage } from './components/pages/OperationsPage'
+import { LegalPage } from './components/pages/LegalPage'
 import { operations } from './data/operations'
 import { StandardPage } from './components/pages/StandardPage'
 import { pageContent } from './data/pageContent'
@@ -53,9 +54,11 @@ function App() {
   const isHomePage = currentPage === 'home'
   const isContactPage = currentPage === 'contact'
   const isGalleryPage = currentPage === 'gallery'
+  const isPrivacyPage = currentPage === 'privacy-policy'
+  const isTermsPage = currentPage === 'terms-and-conditions'
   const standardContent = pageContent[currentPage]
   const productId = currentPage.startsWith('product-') ? currentPage.slice('product-'.length) : null
-  const knownPage = isHomePage || isProfilePage || isContactPage || Boolean(standardContent) || Boolean(productId)
+  const knownPage = isHomePage || isProfilePage || isContactPage || isPrivacyPage || isTermsPage || Boolean(standardContent) || Boolean(productId)
   const operationsPage = operations[currentPage] ? currentPage : null
   const pageExists = knownPage || Boolean(operationsPage)
 
@@ -63,7 +66,8 @@ function App() {
   usePageAnimations(appScope, currentPage)
 
   return (
-    <div ref={appScope} className="site-shell">
+    <>
+      <div ref={appScope} className="site-shell">
       <Header
         currentPage={currentPage}
         menuOpen={menuOpen}
@@ -92,14 +96,17 @@ function App() {
       {isGalleryPage && <GalleryPage />}
       {productId && <ProductDetailPage productId={productId} />}
       {isContactPage && <ContactPage />}
+      {isPrivacyPage && <LegalPage type="privacy" />}
+      {isTermsPage && <LegalPage type="terms" />}
       {operationsPage && <OperationsPage page={operationsPage} />}
       {!pageExists && <NotFoundPage />}
       </div>
 
+      </div>
       <Footer onOpenPage={openPage} />
       <CommandPalette onOpenPage={openPage} />
       {quoteModalOpen && <QuoteModal onClose={closeQuoteModal} />}
-    </div>
+    </>
   )
 }
 

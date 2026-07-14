@@ -7,7 +7,7 @@ export function usePageAnimations(scope: RefObject<HTMLDivElement | null>, curre
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const pageRoots = gsap.utils.toArray<HTMLElement>(
-      '.hero-panel:not(.page-hidden), .company-profile.profile-visible, .leadership-section.profile-visible, .detail-page, .contact-detail-page, .operations-page, .product-detail-page, .not-found-page',
+      '.hero-panel:not(.page-hidden), .company-profile.profile-visible, .leadership-section.profile-visible, .detail-page, .contact-detail-page, .operations-page, .product-detail-page, .legal-page, .not-found-page',
     )
     gsap.fromTo(pageRoots, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: .58, ease: 'power3.out', stagger: .06, clearProps: 'transform' })
 

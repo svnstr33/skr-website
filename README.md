@@ -1,5 +1,18 @@
 # React + TypeScript + Vite
 
+## Supabase setup
+
+The enquiry form and admin content manager require the database objects in
+[`supabase/schema.sql`](supabase/schema.sql). In your Supabase project, open
+**SQL Editor**, paste the complete file, and select **Run**. The script can be
+run safely more than once and creates `public.enquiries`, `public.site_settings`,
+the `enquiry-files` storage bucket, and their access policies.
+
+Then set the project URL and publishable key in `.env` (using `.env.example` as
+the template), restart the Vite server, and refresh the browser. If Supabase
+still reports that `public.enquiries` is missing, confirm that `.env` points to
+the same Supabase project in which the SQL was run.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
