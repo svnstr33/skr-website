@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import heroImg from '../../assets/hero.png'
 import { navItems } from '../../data/navItems'
 import { FiChevronDown, FiMail, FiMoreVertical, FiX } from 'react-icons/fi'
-import { FaWhatsapp } from 'react-icons/fa'
+import { LanguageSelector } from './LanguageSelector'
 
 type HeaderProps = {
   currentPage: string
@@ -102,12 +102,10 @@ export function Header({
               )}
             </div>
           ))}
-          <a href="#contact-form" className="menu-quote-link" onClick={() => onOpenPage('contact-form')}>
-            Request a Quote <FiMail />
+          <a href="#contact-form" className="menu-quote-link" onClick={() => onOpenPage('contact-form')} aria-label="Request a Quote" title="Request a Quote">
+            <FiMail />
           </a>
-          <a href="#contact-form" className="nav-whatsapp-link" onClick={() => onOpenPage('contact-form')} aria-label="Open WhatsApp enquiry form" title="WhatsApp enquiry">
-            <FaWhatsapp />
-          </a>
+          <LanguageSelector />
         </nav>
       </div>
     </header>
