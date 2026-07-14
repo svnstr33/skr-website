@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
 import { QuoteModal } from './components/layout/QuoteModal'
-import { CommandPalette } from './components/layout/CommandPalette'
 import { SiteLoader } from './components/layout/SiteLoader'
 import { CallButton } from './components/layout/CallButton'
 import { LoginPage } from './components/admin/LoginPage'
@@ -113,7 +112,6 @@ function App() {
 
       </div>
       <Footer onOpenPage={openPage} />
-      <CommandPalette onOpenPage={openPage} />
       <CallButton />
       {quoteModalOpen && <QuoteModal onClose={closeQuoteModal} />}
       <SiteLoader visible={pageLoading} />
