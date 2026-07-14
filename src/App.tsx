@@ -3,6 +3,8 @@ import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
 import { QuoteModal } from './components/layout/QuoteModal'
 import { CommandPalette } from './components/layout/CommandPalette'
+import { SiteLoader } from './components/layout/SiteLoader'
+import { CallButton } from './components/layout/CallButton'
 import { LoginPage } from './components/admin/LoginPage'
 import { AdminDashboard } from './components/admin/AdminDashboard'
 import { FactoryOverview } from './components/home/FactoryOverview'
@@ -27,6 +29,7 @@ import './styles/app.css'
 function App() {
   const appScope = useRef<HTMLDivElement>(null)
   const [pathname, setPathname] = useState(() => window.location.pathname)
+  const [pageLoading, setPageLoading] = useState(true)
   useEffect(() => {
     const syncPath = () => setPathname(window.location.pathname)
     window.addEventListener('popstate', syncPath)
@@ -61,6 +64,12 @@ function App() {
   const knownPage = isHomePage || isProfilePage || isContactPage || isPrivacyPage || isTermsPage || Boolean(standardContent) || Boolean(productId)
   const operationsPage = operations[currentPage] ? currentPage : null
   const pageExists = knownPage || Boolean(operationsPage)
+
+  useEffect(() => {
+    setPageLoading(true)
+    const timeout = window.setTimeout(() => setPageLoading(false), 520)
+    return () => window.clearTimeout(timeout)
+  }, [currentPage])
 
   useScrollTopbar()
   usePageAnimations(appScope, currentPage)
@@ -105,7 +114,9 @@ function App() {
       </div>
       <Footer onOpenPage={openPage} />
       <CommandPalette onOpenPage={openPage} />
+      <CallButton />
       {quoteModalOpen && <QuoteModal onClose={closeQuoteModal} />}
+      <SiteLoader visible={pageLoading} />
     </>
   )
 }

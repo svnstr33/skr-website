@@ -48,11 +48,14 @@ create table if not exists public.site_settings (
   hero_title text not null,
   hero_description text not null,
   contact_email text not null,
+  contact_phone text not null default '',
   contact_address text not null,
   contact_response text not null,
   business_hours text not null,
   updated_at timestamptz not null default now()
 );
+alter table public.site_settings
+  add column if not exists contact_phone text not null default '';
 alter table public.site_settings enable row level security;
 
 drop policy if exists "Anyone can read website settings" on public.site_settings;
