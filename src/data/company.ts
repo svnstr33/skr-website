@@ -7,15 +7,14 @@ export const companyDetails: [string, string][] = [
   ['Class of Company', 'Private'],
   ['Authorised Capital', '₹15,00,000'],
   ['Paid-up Capital', '₹1,00,000'],
-  ['Date of Incorporation', '20 January 2024'],
   ['Listing Status', 'Unlisted'],
 ]
 
-export const directors: [string, string, string, string][] = [
-  ['07583224', 'Narendra R Suthar', 'Managing Director', '20 January 2024'],
-  ['10473645', 'Roopa Ram Suthar', 'Director', '20 January 2024'],
-  ['10473646', 'Harish R Suthar', 'Director', '20 January 2024'],
-  ['10473647', 'Umesh R Suthar', 'Director', '20 January 2024'],
+export const directors: [string, string, string][] = [
+  ['07583224', 'Narendra R Suthar', 'Managing Director'],
+  ['10473645', 'Roopa Ram Suthar', 'Director'],
+  ['10473646', 'Harish R Suthar', 'Director'],
+  ['10473647', 'Umesh R Suthar', 'Director'],
 ]
 
 export const leadership: [string, string, string][] = [
