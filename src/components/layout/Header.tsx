@@ -4,6 +4,12 @@ import { navItems } from '../../data/navItems'
 import { FiChevronDown, FiMail, FiMoreVertical, FiX } from 'react-icons/fi'
 import { LanguageSelector } from './LanguageSelector'
 
+const megaMenuContent: Record<string, { kicker: string; title: string; summary: string; focus: string[]; groups: { title: string; links: { label: string; href: string }[] }[] }> = {
+  Division: { kicker: 'Specialist divisions', title: 'Find the right SKR production team.', summary: 'Two focused teams for component programmes, drawings and repeat manufacturing requirements.', focus: ['Drawing-led review', 'Repeat production', 'Quality checkpoints'], groups: [{ title: 'Umbrella Components', links: [{ label: 'Umbrella manufacturing', href: '#umbrella-manufacturing' }, { label: 'Components & materials', href: '#umbrella-components' }] }, { title: 'Engineering', links: [{ label: 'Engineering', href: '#vishwakarma-engineering' }, { label: 'Engineering services', href: '#engineering-services' }] }] },
+  Capabilities: { kicker: 'Factory capability', title: 'From material flow to inspected dispatch.', summary: 'A practical look at production readiness, process equipment and quality control.', focus: ['Production flow', 'Machine support', 'Inspection planning'], groups: [{ title: 'Production', links: [{ label: 'Manufacturing facility', href: '#manufacturing' }, { label: 'Infrastructure', href: '#infrastructure' }, { label: 'Machinery & tooling', href: '#machinery' }] }, { title: 'Assurance', links: [{ label: 'Quality assurance', href: '#quality' }, { label: 'Certifications', href: '#certifications' }, { label: 'Industries served', href: '#industries' }] }] },
+  Resources: { kicker: 'Knowledge & updates', title: 'Practical material for sourcing teams.', summary: 'Approved company material, manufacturing knowledge and current opportunity updates.', focus: ['Company documents', 'Technical insights', 'Official updates'], groups: [{ title: 'Explore', links: [{ label: 'Client partnerships', href: '#clients' }, { label: 'Manufacturing insights', href: '#blog' }, { label: 'News & events', href: '#news' }] }, { title: 'Work with us', links: [{ label: 'Careers', href: '#careers' }, { label: 'Download centre', href: '#downloads' }, { label: 'Request a quote', href: '#contact-form' }] }] },
+}
+
 type HeaderProps = {
   currentPage: string
   menuOpen: boolean
@@ -76,19 +82,10 @@ export function Header({
                     <button type="button" className="nav-chevron-button" aria-label={`${openDropdown === item.label ? 'Close' : 'Open'} ${item.label} menu`} aria-expanded={openDropdown === item.label} onClick={() => onToggleDropdown(item.label)}><FiChevronDown className="nav-icon" /></button>
                   </div>
                   <div id={`${item.label.toLowerCase().replaceAll(' ', '-')}-menu`} className={`dropdown ${openDropdown === item.label ? 'dropdown-open' : ''}`}>
-                    <a href={item.href} className="dropdown-link dropdown-overview-link" onClick={() => onOpenPage(item.href.slice(1))}>
-                      {item.label} Overview
-                    </a>
-                    {item.children.map((child) => (
-                      <a
-                        key={child.label}
-                        href={child.href}
-                        className="dropdown-link"
-                        onClick={() => onOpenPage(child.href.slice(1))}
-                      >
-                        {child.label}
-                      </a>
-                    ))}
+                    <div className="mega-menu">
+                      <div className="mega-menu-intro"><span>{megaMenuContent[item.label].kicker}</span><strong>{megaMenuContent[item.label].title}</strong><p>{megaMenuContent[item.label].summary}</p><div>{megaMenuContent[item.label].focus.map((item) => <small key={item}>{item}</small>)}</div></div>
+                      <div className="mega-menu-groups">{megaMenuContent[item.label].groups.map((group) => <section key={group.title}><h3>{group.title}</h3>{group.links.map((link) => <a key={link.label} href={link.href} onClick={() => onOpenPage(link.href.slice(1))}>{link.label}</a>)}</section>)}</div>
+                    </div>
                   </div>
                 </>
               ) : (

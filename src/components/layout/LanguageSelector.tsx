@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { FiCheck, FiGlobe } from 'react-icons/fi'
+import { createPortal } from 'react-dom'
+import { FiCheck, FiGlobe, FiX } from 'react-icons/fi'
 
 type Language = {
   code: string
@@ -83,24 +84,31 @@ export function LanguageSelector() {
         onClick={() => setOpen((current) => !current)}
       >
         <FiGlobe aria-hidden="true" />
+        <span>{language.toUpperCase().replace('-CN', '').replace('-TW', '')}</span>
+        <em>Language</em>
       </button>
-      {open && (
-        <div className="language-menu" role="listbox" aria-label="Website language">
-          {languages.map((item) => (
-            <button
-              key={item.code}
-              type="button"
-              className={`language-option ${item.code === language ? 'language-option-active' : ''}`}
-              role="option"
-              aria-selected={item.code === language}
-              onClick={() => chooseLanguage(item.code)}
-            >
-              <span>{item.nativeLabel}</span>
-              <small>{item.label}</small>
-              {item.code === language && <FiCheck aria-label="Selected" />}
-            </button>
-          ))}
-        </div>
+      {open && createPortal(
+        <>
+          <button type="button" className="language-backdrop" aria-label="Close language selector" onClick={() => setOpen(false)} />
+          <div className="language-menu" role="listbox" aria-label="Website language">
+            <div className="language-menu-heading"><div><span>Website language</span><small>Select your preferred language</small></div><button type="button" aria-label="Close language selector" onClick={() => setOpen(false)}><FiX /></button></div>
+            <div className="language-options">{languages.map((item) => (
+              <button
+                key={item.code}
+                type="button"
+                className={`language-option ${item.code === language ? 'language-option-active' : ''}`}
+                role="option"
+                aria-selected={item.code === language}
+                onClick={() => chooseLanguage(item.code)}
+              >
+                <span>{item.nativeLabel}</span>
+                <small>{item.label}</small>
+                {item.code === language && <FiCheck aria-label="Selected" />}
+              </button>
+            ))}</div>
+          </div>
+        </>,
+        document.body,
       )}
       <div id="google_translate_element" aria-hidden="true" />
     </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { FiArrowLeft, FiArrowUpRight, FiCheck, FiDownload, FiFileText, FiMaximize2, FiPackage, FiSend } from 'react-icons/fi'
 
 type Product = { code: string; name: string; material: string; category: string; description: string; application: string; finish: string; size: string; process: string[] }
@@ -22,14 +22,26 @@ const catalogue: Record<string, Product> = {
 export function ProductDetailPage({ productId }: { productId: string }) {
   const product = catalogue[productId]
   const [activeImage, setActiveImage] = useState(0)
+  const dragStart = useRef<number | null>(null)
   if (!product) return <main className="not-found-page"><p className="eyebrow">Product Not Found</p><h1>This product is not published yet.</h1><p>Please browse the current catalogue or contact SKR with your component requirement.</p><div><a href="#products" className="hero-btn hero-btn-primary">Browse products</a></div></main>
   const isUmbrella = product.category === 'Umbrella Components'
   const galleryViews = ['Component overview', 'Detail & finish', 'Quality checkpoint']
   const specs = [['Product code', product.code], ['Category', product.category], ['Material', product.material], ['Length / size', product.size], ['Finish', product.finish], ['MOQ', 'Discuss with our sales team'], ['Quality standard', 'As per approved requirement']]
   const related = Object.values(catalogue).filter((item) => item.code !== product.code && item.category === product.category).slice(0, 3)
+  const changeView = (direction: number) => setActiveImage((current) => (current + direction + galleryViews.length) % galleryViews.length)
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    dragStart.current = event.clientX
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+  const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (dragStart.current === null) return
+    const movement = event.clientX - dragStart.current
+    if (Math.abs(movement) > 28) changeView(movement > 0 ? -1 : 1)
+    dragStart.current = null
+  }
   return <main className={`product-detail-page ${isUmbrella ? 'umbrella-product' : 'engineering-product'}`}>
     <a className="back-link" href="#products"><FiArrowLeft /> Back to products</a>
-    <section className="product-detail-hero"><div className="product-gallery"><div className={`product-main-visual product-view-${activeImage}`} aria-label={galleryViews[activeImage]}><span>{product.category}</span><strong>{product.code}</strong><small>{galleryViews[activeImage]}</small><FiMaximize2 /></div><div className="product-thumbnails">{galleryViews.map((view, item) => <button type="button" key={view} onClick={() => setActiveImage(item)} className={activeImage === item ? 'active' : ''} aria-label={`View ${view}`}><span>0{item + 1}</span></button>)}<button type="button" className="view-360" onClick={() => setActiveImage((current) => (current + 1) % galleryViews.length)} aria-label="Change product view">360°</button></div></div><div className="product-summary"><p className="eyebrow">{product.category}</p><p className="product-code">{product.code}</p><h1>{product.name}</h1><p>{product.description}</p><div className="product-quick-specs"><span><b>Material</b>{product.material}</span><span><b>Finish</b>{product.finish}</span><span><b>Application</b>{product.application}</span></div><div className="product-actions"><a href="#contact" className="hero-btn hero-btn-primary">Request a quote <FiArrowUpRight /></a><a href="#contact" className="outline-button"><FiDownload /> Request PDF</a></div></div></section>
+    <section className="product-detail-hero"><div className="product-gallery"><div className={`product-main-visual product-view-${activeImage}`} role="button" tabIndex={0} aria-label={`${galleryViews[activeImage]}. Drag horizontally to change view.`} onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onKeyDown={(event) => { if (event.key === 'ArrowLeft') changeView(-1); if (event.key === 'ArrowRight') changeView(1) }}><span>{product.category}</span><strong>{product.code}</strong><small>{galleryViews[activeImage]}</small><FiMaximize2 /><i>Drag to rotate</i></div><div className="product-thumbnails">{galleryViews.map((view, item) => <button type="button" key={view} onClick={() => setActiveImage(item)} className={activeImage === item ? 'active' : ''} aria-label={`View ${view}`}><span>0{item + 1}</span></button>)}<button type="button" className="view-360" onClick={() => changeView(1)} aria-label="Rotate product view">360 deg</button></div></div><div className="product-summary"><p className="eyebrow">{product.category}</p><p className="product-code">{product.code}</p><h1>{product.name}</h1><p>{product.description}</p><div className="product-quick-specs"><span><b>Material</b>{product.material}</span><span><b>Finish</b>{product.finish}</span><span><b>Application</b>{product.application}</span></div><div className="product-actions"><a href="#contact" className="hero-btn hero-btn-primary">Request a quote <FiArrowUpRight /></a><a href="#contact" className="outline-button"><FiDownload /> Request PDF</a></div></div></section>
     <section className="detail-feature-grid"><article><FiCheck /><h3>Key features</h3><p>Designed around functional fit, production repeatability and finish expectations.</p></article><article><FiPackage /><h3>Packaging</h3><p>Protected packing planned around component type, quantity and dispatch route.</p></article><article><FiFileText /><h3>Documentation</h3><p>Technical and commercial documents shared for approved enquiries.</p></article></section>
     <section className="product-content-grid"><div><p className="eyebrow">Technical Details</p><h2>Specification overview.</h2><div className="specification-table">{specs.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div></div><aside><p className="eyebrow">Applications</p><h3>Built for real-world use.</h3><p>{product.application}</p><ul><li>Custom dimensions and options available</li><li>Finish selected to meet the application need</li><li>Production capacity discussed against requirement</li></ul></aside></section>
     <section className="product-process"><div><p className="eyebrow">{isUmbrella ? 'Manufacturing Process' : 'Engineering Process'}</p><h2>From specification to supply.</h2></div><div>{product.process.map((step, index) => <article key={step}><b>0{index + 1}</b><span>{step}</span></article>)}</div></section>

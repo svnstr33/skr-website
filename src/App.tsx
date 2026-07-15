@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Footer } from './components/layout/Footer'
 import { Header } from './components/layout/Header'
+import { PageLocationBar } from './components/layout/PageLocationBar'
 import { QuoteModal } from './components/layout/QuoteModal'
 import { SiteLoader } from './components/layout/SiteLoader'
 import { CallButton } from './components/layout/CallButton'
@@ -60,6 +61,7 @@ function App() {
   const isTermsPage = currentPage === 'terms-and-conditions'
   const standardContent = pageContent[currentPage]
   const productId = currentPage.startsWith('product-') ? currentPage.slice('product-'.length) : null
+  const pageTitle = productId ? 'Product Details' : operations[currentPage]?.title ?? standardContent?.title ?? ({ profile: 'About SKR', contact: 'Contact SKR', gallery: 'Factory & Product Gallery', 'privacy-policy': 'Privacy Policy', 'terms-and-conditions': 'Terms & Conditions' }[currentPage] ?? 'Page Not Found')
   const knownPage = isHomePage || isProfilePage || isContactPage || isPrivacyPage || isTermsPage || Boolean(standardContent) || Boolean(productId)
   const operationsPage = operations[currentPage] ? currentPage : null
   const pageExists = knownPage || Boolean(operationsPage)
@@ -85,6 +87,7 @@ function App() {
         onCloseDropdown={closeDropdown}
         onOpenPage={openPage}
       />
+      <PageLocationBar page={currentPage} title={pageTitle} />
 
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <Hero visible={isHomePage} onOpenPage={openPage} />

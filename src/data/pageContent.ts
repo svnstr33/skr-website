@@ -124,6 +124,23 @@ export const pageContent: PageContentMap = {
       { meta: '03', title: 'Plan supply', body: 'Once agreed, the team coordinates the manufacturing and delivery approach.' },
     ], cta: 'Discuss your umbrella component requirement with the SKR team.'
   },
+  'umbrella-components': {
+    eyebrow: 'Umbrella Components', title: 'Component choices for reliable umbrella frames.',
+    description: 'A focused guide to the functional parts that make up an umbrella frame, helping sourcing and product teams prepare a clearer requirement.',
+    imageLabel: 'Umbrella frame component detail', imageNote: 'Use an approved close-up of ribs, stretchers, shaft or spring assemblies.',
+    stats: [['Ribs', 'Canopy support'], ['Shafts', 'Frame backbone'], ['Springs', 'Opening action']],
+    overviewTitle: 'Specify the component, then plan the frame', overview: 'A useful enquiry identifies the frame format, intended canopy size, component material, finish, application and target quantity. This lets the team review the right production path before commercial discussion.',
+    cards: [
+      { meta: 'Frame structure', title: 'Ribs & stretchers', body: 'Parts that support the canopy and transfer movement through the opening and closing action.' },
+      { meta: 'Core component', title: 'Shafts & runners', body: 'Central elements selected around the frame type, handle interface and opening system.' },
+      { meta: 'Functional detail', title: 'Springs & fittings', body: 'Small components considered for secure operation, repeat use and assembly compatibility.' },
+    ],
+    processTitle: 'Prepare a component enquiry', process: [
+      { meta: '01', title: 'Identify the frame', body: 'Share the umbrella format, canopy size, rib count or an existing sample.' },
+      { meta: '02', title: 'Define the requirement', body: 'Confirm material, finish, quantity, application and quality expectations.' },
+      { meta: '03', title: 'Review the supply route', body: 'Discuss component feasibility, assembly needs, packing and delivery requirements.' },
+    ], cta: 'Have an umbrella component sample or specification? Share it with SKR.'
+  },
   'vishwakarma-engineering': {
     eyebrow: 'Division 02', title: 'Engineering',
     description: 'Precision-machined metal components for industrial applications, manufactured using CNC, VMC, EDM and specialised purpose machines.',
@@ -140,5 +157,22 @@ export const pageContent: PageContentMap = {
       { meta: '02', title: 'Manufacturing review', body: 'The team considers a practical method, quality needs and delivery expectations.' },
       { meta: '03', title: 'Quote & execution', body: 'Proceed after requirement alignment and commercial confirmation.' },
     ], cta: 'Have a drawing or metal component requirement? Start an engineering enquiry.'
+  },
+  'engineering-services': {
+    eyebrow: 'Engineering Services', title: 'Drawing-led manufacturing support for industrial parts.',
+    description: 'An overview of the practical engineering services used to move a customer drawing, sample or part requirement towards repeatable production.',
+    imageLabel: 'Engineering production setup', imageNote: 'Use an approved machine, tooling, inspection or finished-component photograph.',
+    stats: [['CNC', 'Machining support'], ['Fabrication', 'Metal processing'], ['Assembly', 'Production support']],
+    overviewTitle: 'A clear route from drawing to dispatch', overview: 'Engineering work begins with the technical requirement: material, critical dimensions, tolerances, finish, expected volume and application. The appropriate process is then reviewed around the part rather than selected in isolation.',
+    cards: [
+      { meta: 'Requirement review', title: 'Drawing & sample assessment', body: 'Review of material, dimensions, critical features, usage and expected production quantity.' },
+      { meta: 'Production method', title: 'Machining & fabrication', body: 'Practical process planning for machining, formed metal components and related production requirements.' },
+      { meta: 'Supply readiness', title: 'Assembly & inspection', body: 'Consideration of fitment, verification, packing and dispatch needs before supply planning.' },
+    ],
+    processTitle: 'How engineering work is planned', process: [
+      { meta: '01', title: 'Send technical context', body: 'Provide the drawing or sample with material, quantity and application details.' },
+      { meta: '02', title: 'Align the process', body: 'Review a suitable manufacturing method, tooling and inspection checkpoints.' },
+      { meta: '03', title: 'Confirm production', body: 'Proceed with the agreed commercial, quality and delivery requirements.' },
+    ], cta: 'Share your drawing or component requirement for an engineering review.'
   },
 }
