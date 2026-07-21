@@ -1,6 +1,6 @@
 import { useSiteSettings } from '../../lib/siteSettings'
 
-type LegalPageProps = { type: 'privacy' | 'terms' }
+type LegalPageProps = { type: 'privacy' | 'terms' | 'disclaimer' }
 type LegalSection = { title: string; paragraphs?: string[]; items?: string[] }
 
 const privacySections: LegalSection[] = [
@@ -22,18 +22,27 @@ const termsSections: LegalSection[] = [
   { title: 'Changes and governing law', paragraphs: ['We may update these Terms & Conditions from time to time. Continued use of the website after an update means you accept the revised terms.', 'These Terms are governed by the laws of India. Any dispute relating to this website is subject to the jurisdiction of competent courts in Rajasthan, India.'] },
 ]
 
+const disclaimerSections: LegalSection[] = [
+  { title: 'General information only', paragraphs: ['The content on this website is provided for general information about SKR Metal Industries Pvt. Ltd., its manufacturing capabilities and its product range. It is not a binding offer, technical advice or a guarantee of suitability for a particular purpose.'] },
+  { title: 'Product information', paragraphs: ['Product images, dimensions, materials, finishes, technical details and application examples are indicative and may vary. Final specifications, tolerances, availability, packaging and delivery requirements must be confirmed in an official written quotation or agreement.'] },
+  { title: 'Website content and availability', paragraphs: ['We aim to keep website information accurate and current, but we do not guarantee that all content is complete, error-free or continuously available. We may change, remove or update content without notice.'] },
+  { title: 'Third-party services and links', paragraphs: ['Links to third-party websites or services are provided for convenience. SKR does not control, endorse or take responsibility for their content, availability, privacy practices or security.'] },
+  { title: 'Use of website materials', paragraphs: ['The SKR name, logo, photographs, product visuals, documents and written content may not be copied, reproduced or used for commercial purposes without prior written permission from SKR Metal Industries Pvt. Ltd.'] },
+]
+
 export function LegalPage({ type }: LegalPageProps) {
   const settings = useSiteSettings()
   const isPrivacy = type === 'privacy'
-  const title = isPrivacy ? 'Privacy Policy' : 'Terms & Conditions'
-  const intro = isPrivacy ? 'How we collect, use, protect and share information provided through this website and business enquiries.' : 'The rules that apply when you access and use the SKR Metal Industries Pvt. Ltd. website.'
-  const sections = isPrivacy ? privacySections : termsSections
+  const isDisclaimer = type === 'disclaimer'
+  const title = isPrivacy ? 'Privacy Policy' : isDisclaimer ? 'Disclaimer' : 'Terms & Conditions'
+  const intro = isPrivacy ? 'How we collect, use, protect and share information provided through this website and business enquiries.' : isDisclaimer ? 'Important information about using this website, its content and the information shown about our products and capabilities.' : 'The rules that apply when you access and use the SKR Metal Industries Pvt. Ltd. website.'
+  const sections = isPrivacy ? privacySections : isDisclaimer ? disclaimerSections : termsSections
 
   return <main className="legal-page" aria-labelledby="legal-page-title">
     <header className="legal-page-header"><p className="eyebrow">SKR Metal Industries Pvt. Ltd.</p><h1 id="legal-page-title">{title}</h1><p>{intro}</p><small>Last updated: July 2026</small></header>
     <div className="legal-page-content">
       {sections.map((section, index) => <section key={section.title}><span>{String(index + 1).padStart(2, '0')}</span><div><h2>{section.title}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}{section.items && <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>}</div></section>)}
     </div>
-    <section className="legal-contact"><h2>Contact information</h2><p>For questions about this {isPrivacy ? 'Privacy Policy' : 'Terms & Conditions'}, email <a href={`mailto:${settings.contact_email}`}>{settings.contact_email}</a> or write to {settings.contact_address}</p></section>
+    <section className="legal-contact"><h2>Contact information</h2><p>For questions about this {title}, email <a href={`mailto:${settings.contact_email}`}>{settings.contact_email}</a> or write to {settings.contact_address}</p></section>
   </main>
 }

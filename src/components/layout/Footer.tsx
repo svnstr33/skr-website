@@ -47,6 +47,7 @@ export function Footer({ onOpenPage }: FooterProps) {
             <div className="footer-links footer-legal-links">
               <a href="#privacy-policy" className="footer-link" onClick={() => onOpenPage('privacy-policy')}>Privacy Policy</a>
               <a href="#terms-and-conditions" className="footer-link" onClick={() => onOpenPage('terms-and-conditions')}>Terms &amp; Conditions</a>
+              <a href="#disclaimer" className="footer-link" onClick={() => onOpenPage('disclaimer')}>Disclaimer</a>
             </div>
           </div>
         </div>

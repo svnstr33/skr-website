@@ -5,6 +5,7 @@ import { PageLocationBar } from './components/layout/PageLocationBar'
 import { QuoteModal } from './components/layout/QuoteModal'
 import { SiteLoader } from './components/layout/SiteLoader'
 import { CallButton } from './components/layout/CallButton'
+import { CookieNotice } from './components/layout/CookieNotice'
 import { LoginPage } from './components/admin/LoginPage'
 import { AdminDashboard } from './components/admin/AdminDashboard'
 import { FactoryOverview } from './components/home/FactoryOverview'
@@ -16,6 +17,7 @@ import { ContactPage } from './components/pages/ContactPage'
 import { GalleryPage } from './components/pages/GalleryPage'
 import { ProductDetailPage } from './components/pages/ProductDetailPage'
 import { NotFoundPage } from './components/pages/NotFoundPage'
+import { OfflinePage } from './components/pages/OfflinePage'
 import { OperationsPage } from './components/pages/OperationsPage'
 import { LegalPage } from './components/pages/LegalPage'
 import { operations } from './data/operations'
@@ -30,10 +32,20 @@ function App() {
   const appScope = useRef<HTMLDivElement>(null)
   const [pathname, setPathname] = useState(() => window.location.pathname)
   const [pageLoading, setPageLoading] = useState(true)
+  const [isOffline, setIsOffline] = useState(() => !window.navigator.onLine)
   useEffect(() => {
     const syncPath = () => setPathname(window.location.pathname)
     window.addEventListener('popstate', syncPath)
     return () => window.removeEventListener('popstate', syncPath)
+  }, [])
+  useEffect(() => {
+    const updateConnection = () => setIsOffline(!window.navigator.onLine)
+    window.addEventListener('online', updateConnection)
+    window.addEventListener('offline', updateConnection)
+    return () => {
+      window.removeEventListener('online', updateConnection)
+      window.removeEventListener('offline', updateConnection)
+    }
   }, [])
   const navigateAdmin = (path: '/login' | '/dashboard') => {
     window.history.pushState(null, '', path)
@@ -59,10 +71,12 @@ function App() {
   const isGalleryPage = currentPage === 'gallery'
   const isPrivacyPage = currentPage === 'privacy-policy'
   const isTermsPage = currentPage === 'terms-and-conditions'
+  const isDisclaimerPage = currentPage === 'disclaimer'
+  const isOfflinePage = currentPage === 'offline'
   const standardContent = pageContent[currentPage]
   const productId = currentPage.startsWith('product-') ? currentPage.slice('product-'.length) : null
-  const pageTitle = productId ? 'Product Details' : operations[currentPage]?.title ?? standardContent?.title ?? ({ profile: 'About SKR', contact: 'Contact SKR', gallery: 'Factory & Product Gallery', 'privacy-policy': 'Privacy Policy', 'terms-and-conditions': 'Terms & Conditions' }[currentPage] ?? 'Page Not Found')
-  const knownPage = isHomePage || isProfilePage || isContactPage || isPrivacyPage || isTermsPage || Boolean(standardContent) || Boolean(productId)
+  const pageTitle = isOffline || isOfflinePage ? 'You are offline' : productId ? 'Product Details' : operations[currentPage]?.title ?? standardContent?.title ?? ({ profile: 'About SKR', contact: 'Contact SKR', gallery: 'Factory & Product Gallery', 'privacy-policy': 'Privacy Policy', 'terms-and-conditions': 'Terms & Conditions', disclaimer: 'Disclaimer' }[currentPage] ?? 'Page Not Found')
+  const knownPage = isHomePage || isProfilePage || isContactPage || isPrivacyPage || isTermsPage || isDisclaimerPage || isOfflinePage || Boolean(standardContent) || Boolean(productId)
   const operationsPage = operations[currentPage] ? currentPage : null
   const pageExists = knownPage || Boolean(operationsPage)
 
@@ -93,6 +107,7 @@ function App() {
       <Hero visible={isHomePage} onOpenPage={openPage} />
 
       <div id="main-content" tabIndex={-1}>
+      {(isOffline || isOfflinePage) ? <OfflinePage /> : <>
       {isHomePage && (
         <>
           <FactoryOverview onOpenPage={openPage} />
@@ -109,13 +124,16 @@ function App() {
       {isContactPage && <ContactPage />}
       {isPrivacyPage && <LegalPage type="privacy" />}
       {isTermsPage && <LegalPage type="terms" />}
+      {isDisclaimerPage && <LegalPage type="disclaimer" />}
       {operationsPage && <OperationsPage page={operationsPage} />}
       {!pageExists && <NotFoundPage />}
+      </>}
       </div>
 
       </div>
       <Footer onOpenPage={openPage} />
       <CallButton />
+      <CookieNotice />
       {quoteModalOpen && <QuoteModal onClose={closeQuoteModal} />}
       <SiteLoader visible={pageLoading} />
     </>
