@@ -11,10 +11,10 @@ export const companyDetails: [string, string][] = [
 ]
 
 export const directors: [string, string, string][] = [
-  ['07583224', 'Narendra R Suthar', 'Managing Director'],
-  ['10473645', 'Roopa Ram Suthar', 'Director'],
-  ['10473646', 'Harish R Suthar', 'Director'],
-  ['10473647', 'Umesh R Suthar', 'Director'],
+  ['', 'Narendra R Suthar', 'Managing Director'],
+  ['', 'Roopa Ram Suthar', 'Director'],
+  ['', 'Harish R Suthar', 'Director'],
+  ['', 'Umesh R Suthar', 'Director'],
 ]
 
 export const leadership: [string, string, string][] = [
